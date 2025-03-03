@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Messages | Portfolio</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Enhanced Admin Dashboard Styling */
+        .messages-container {
+            padding: 40px 0;
+            background-color: #f8f9fe;
+            min-height: 70vh;
+        }
+        
+        .message-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .message-item {
+            background-color: var(--white-color);
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+            padding: 25px;
+            margin-bottom: 25px;
+            transition: all 0.3s ease;
+            border-left: 4px solid var(--primary-color);
+        }
+        
+        .message-item:hover {
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+            transform: translateY(-3px);
+        }
+        
+        .message-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 18px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .message-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--text-color);
+        }
+        
+        .message-date {
+            color: var(--light-text-color);
+            font-size: 14px;
+            background: #f5f7ff;
+            padding: 4px 10px;
+            border-radius: 20px;
+        }
+        
+        .message-sender {
+            margin-bottom: 18px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .sender-avatar {
+            width: 40px;
+            height: 40px;
+            background-color: #e9ecff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+        
+        .message-sender-name {
+            font-weight: 600;
+            color: var(--text-color);
+        }
+        
+        .message-sender-email {
+            color: var(--primary-color);
+            margin-left: 5px;
+        }
+        
+        .message-text {
+            padding: 20px;
+            background-color: #f8f9fe;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            white-space: pre-wrap;
+            line-height: 1.7;
+            color: var(--light-text-color);
+            border-left: 3px solid #e9ecff;
+        }
+        
+        .message-actions {
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+        }
+        
+        .message-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .message-btn i {
+            font-size: 14px;
+        }
+        
+        .message-btn.delete {
+            background-color: #e74c3c;
+        }
+        
+        .message-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .no-messages {
+            text-align: center;
+            padding: 60px 0;
+            color: var(--light-text-color);
+        }
+        
+        .no-messages i {
+            font-size: 60px;
+            color: #e9ecff;
+            margin-bottom: 15px;
+        }
+        
+        .admin-header {
+            background: linear-gradient(135deg, var(--dark-bg-color), #2c3e50);
+            color: white;
+            padding: 20px 0;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .admin-title {
+            margin: 0;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+        }
+        
+        .admin-title i {
+            margin-right: 10px;
+        }
+        
+        .admin-actions {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .page-banner {
+            background: linear-gradient(135deg, var(--secondary-color), #e9ecef);
+            padding: 40px 0;
+        }
+        
+        .page-banner h1 {
+            color: var(--text-color);
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+        
+        .page-banner p {
+            color: var(--light-text-color);
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-header">
+        <div class="container">
+            <h1 class="admin-title"><i class="fas fa-inbox"></i> Message Dashboard</h1>
+            <div class="admin-actions">
+                <button id="clearMessages" class="message-btn delete"><i class="fas fa-trash"></i> Clear All</button>
+                <a href="../Home.html" class="message-btn"><i class="fas fa-home"></i> Back to Website</a>
+            </div>
+        </div>
+    </div>
+
+    <main>
+        <section class="page-banner">
+            <div class="container">
+                <h1>Stored Messages</h1>
+                <p>View all messages submitted through the contact form</p>
+            </div>
+        </section>
+
+        <section class="messages-container">
+            <div class="container">
+                <div id="messagesList"></div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const messagesList = document.getElementById('messagesList');
+            const clearBtn = document.getElementById('clearMessages');
+            
+            // Load and display messages
+            function loadMessages() {
+                // Get messages from localStorage
+                const messages = JSON.parse(localStorage.getItem('contactMessages')) || [];
+                
+                // Clear current list
+                messagesList.innerHTML = '';
+                
+                if (messages.length === 0) {
+                    messagesList.innerHTML = `
+                        <div class="no-messages">
+                            <i class="fas fa-inbox"></i>
+                            <h3>No Messages Yet</h3>
+                            <p>Messages submitted through the contact form will appear here</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                // Create list element
+                const list = document.createElement('ul');
+                list.className = 'message-list';
+                
+                // Sort messages by date (newest first)
+                messages.sort((a, b) => b.id - a.id);
+                
+                // Add each message
+                messages.forEach(msg => {
+                    const item = document.createElement('li');
+                    item.className = 'message-item';
+                    item.dataset.id = msg.id;
+                    
+                    // Get initials for avatar
+                    const initials = msg.name.split(' ').map(n => n[0]).join('').toUpperCase();
+                    
+                    item.innerHTML = `
+                        <div class="message-header">
+                            <div class="message-title">${msg.subject}</div>
+                            <div class="message-date"><i class="far fa-clock"></i> ${msg.date}</div>
+                        </div>
+                        <div class="message-sender">
+                            <div class="sender-avatar">${initials}</div>
+                            <div>
+                                <span class="message-sender-name">${msg.name}</span> 
+                                &lt;<a href="mailto:${msg.email}" class="message-sender-email">${msg.email}</a>&gt;
+                            </div>
+                        </div>
+                        <div class="message-text">${msg.message}</div>
+                        <div class="message-actions">
+                            <button class="message-btn delete delete-message" data-id="${msg.id}">
+                                <i class="fas fa-trash-alt"></i> Delete
+                            </button>
+                            <a href="mailto:${msg.email}?subject=Re: ${msg.subject}" class="message-btn">
+                                <i class="fas fa-reply"></i> Reply
+                            </a>
+                        </div>
+                    `;
+                    
+                    list.appendChild(item);
+                });
+                
+                messagesList.appendChild(list);
+                
+                // Add event listeners to delete buttons
+                document.querySelectorAll('.delete-message').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        deleteMessage(this.getAttribute('data-id'));
+                    });
+                });
+            }
+            
+            // Delete a message
+            function deleteMessage(id) {
+                // Convert id to number
+                id = Number(id);
+                
+                // Get current messages
+                let messages = JSON.parse(localStorage.getItem('contactMessages')) || [];
+                
+                // Filter out the message to delete
+                messages = messages.filter(msg => msg.id !== id);
+                
+                // Update localStorage
+                localStorage.setItem('contactMessages', JSON.stringify(messages));
+                
+                // Reload the messages list
+                loadMessages();
+            }
+            
+            // Clear all messages
+            clearBtn.addEventListener('click', function() {
+                if (confirm('Are you sure you want to delete all messages? This cannot be undone.')) {
+                    localStorage.removeItem('contactMessages');
+                    loadMessages();
+                }
+            });
+            
+            // Initial load
+            loadMessages();
+        });
+    </script>
+</body>
+</html>
